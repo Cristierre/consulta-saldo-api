@@ -1,4 +1,4 @@
-package testcases;
+package testcases.getsaldoconta;
 
 
 import br.com.consulta.saldo.builder.ContaSalario;
