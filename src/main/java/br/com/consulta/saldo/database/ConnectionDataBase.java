@@ -32,7 +32,6 @@ public class ConnectionDataBase {
                     .nroConta(Integer.parseInt(conta.get("VLR_SALDO").toString()))
                     .nroAgencia(Integer.parseInt(conta.get("NUM_CONTA_CS").toString())).build();
 
-
         }catch (Exception e){
             System.out.println("Erro " + e);
             return null;

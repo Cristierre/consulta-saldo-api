@@ -1,6 +1,7 @@
 package testcases.getsaldoconta;
 
 
+import br.com.consulta.saldo.basetest.BaseTest;
 import br.com.consulta.saldo.builder.ContaSalario;
 import br.com.consulta.saldo.caller.ConsultaSaldoBuildRequest;
 
@@ -8,21 +9,23 @@ import br.com.consulta.saldo.database.ConnectionDataBase;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static br.com.consulta.saldo.database.ConnectionDataBase.getSaldo;
 import static org.testng.Assert.assertEquals;
 
 
-public class ConsultaSaldoTestCase {
+public class ConsultaSaldoTestCase extends BaseTest {
 
     @Test
     public void respostaRequisicao(){
-        String expected = "{\"fontePagadora\":\"ROAL IND METALURGICA\",\"saldo\":0,\"saldoBloqueado\":0}";
+    ContaSalario expected = getSaldo("139354");
 
-        String result = ConsultaSaldoBuildRequest.requisicao("IB","0101","139354", "USER")
+        int result = ConsultaSaldoBuildRequest.requisicao("IB","0101","139354", "USER")
                 .then()
                 .assertThat()
                 .statusCode(200)
                 .extract()
-                .asString();
+                .path("saldo");
+        System.out.println(expected);
 
         Assert.assertEquals(expected, result);
 
@@ -82,8 +85,23 @@ public class ConsultaSaldoTestCase {
                 .extract()
                 .path("constraints")
                 .toString();
-        System.out.println(result);
+
         Assert.assertEquals(expected, result);
 
+    }
+
+    @Test
+    public void verificaSaldoComAgenciaDiferente(){
+        String expected = "Erro ao consultar saldo";
+
+        String result = ConsultaSaldoBuildRequest.requisicao("IB","0116","139354", "USER")
+                .then()
+                .assertThat()
+                .statusCode(500)
+                .extract()
+                .body()
+                .path("message");
+        System.out.println(result);
+        Assert.assertEquals(expected, result);
     }
 }

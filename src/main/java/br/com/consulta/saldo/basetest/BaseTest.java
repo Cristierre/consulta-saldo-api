@@ -8,8 +8,7 @@ import org.junit.BeforeClass;
 public class BaseTest {
 
     @BeforeClass
-    public void setUp() {
-
+    public static void setUp() {
         new ConnectionDataBase(DbInfo.HOMOLOG.getConnection());
     }
 
