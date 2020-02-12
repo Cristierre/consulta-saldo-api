@@ -101,7 +101,22 @@ public class ConsultaSaldoTestCase extends BaseTest {
                 .extract()
                 .body()
                 .path("message");
-        System.out.println(result);
+
+        Assert.assertEquals(expected, result);
+    }
+    @Test
+    public void verificaSaldoComNomeInvalido(){
+        String expected = "[{message=Formato do usuario inválido., field=consultarSaldo.usuario}]";
+
+        String result = ConsultaSaldoBuildRequest.requisicao("IB","0116","139354", "USUARIO")
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .extract()
+                .body()
+                .path("constraints")
+                .toString();
+
         Assert.assertEquals(expected, result);
     }
 }
