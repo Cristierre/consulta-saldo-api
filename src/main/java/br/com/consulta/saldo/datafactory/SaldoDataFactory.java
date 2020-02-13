@@ -16,9 +16,6 @@ public class SaldoDataFactory {
         dbUtils = DbFactory.get(connection);
     }
 
-    public static DbUtils dbUtils(Connection connection){
-        return DbFactory.get(connection);
-    }
 
     public static int getSaldo(String numeroConta){
         try{
