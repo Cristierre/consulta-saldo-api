@@ -2,15 +2,13 @@ package testcases.getsaldoconta;
 
 
 import br.com.consulta.saldo.basetest.BaseTest;
-import br.com.consulta.saldo.builder.ContaSalario;
 import br.com.consulta.saldo.caller.ConsultaSaldoBuildRequest;
 
-import br.com.consulta.saldo.database.ConnectionDataBase;
+import br.com.consulta.saldo.datafactory.SaldoDataFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static br.com.consulta.saldo.database.ConnectionDataBase.getSaldo;
-import static br.com.consulta.saldo.database.ConnectionDataBase.retornaSoSaldo;
+import static br.com.consulta.saldo.datafactory.SaldoDataFactory.getSaldo;
 import static org.testng.Assert.assertEquals;
 
 
@@ -19,7 +17,7 @@ public class ConsultaSaldoTestCase extends BaseTest {
     @Test
     public void respostaRequisicao(){
         final String  NUMERO_CONTA = "139354";
-    int expected = retornaSoSaldo(NUMERO_CONTA);
+    int expected = getSaldo(NUMERO_CONTA);
 
         int result = ConsultaSaldoBuildRequest.requisicao("IB","0101",NUMERO_CONTA, "USER")
                 .then()
@@ -40,7 +38,7 @@ public class ConsultaSaldoTestCase extends BaseTest {
                 .jsonPath()
                 .getFloat("saldo");
 
-        float expected = ConnectionDataBase.retornaSoSaldo("139354");
+        float expected = SaldoDataFactory.getSaldo("139354");
 
         assertEquals(expected, result);
     }

@@ -1,4 +1,4 @@
-package br.com.consulta.saldo.database;
+package br.com.consulta.saldo.datafactory;
 
 import br.com.consulta.saldo.builder.ContaSalario;
 import br.com.consulta.saldo.querie.GetSaldoQuerie;
@@ -8,11 +8,11 @@ import database.Connection;
 
 import java.util.Map;
 
-public class ConnectionDataBase {
+public class SaldoDataFactory {
 
     private static DbUtils dbUtils;
 
-    public ConnectionDataBase(Connection connection){
+    public SaldoDataFactory(Connection connection){
         dbUtils = DbFactory.get(connection);
     }
 
@@ -20,29 +20,11 @@ public class ConnectionDataBase {
         return DbFactory.get(connection);
     }
 
-    public static ContaSalario getSaldo(String numeroConta){
+    public static int getSaldo(String numeroConta){
         try{
             Map<String, Object> conta;
 
             conta = dbUtils.lerUmaLinha(GetSaldoQuerie.SELECT_QUE_RETORNA_SO_SALDO
-            .replace("<NCONTA>",numeroConta)
-            );
-
-            return ContaSalario.builder()
-                    .saldo(Integer.parseInt(conta.get("VLR_CONTA_CS").toString()))
-                    .nroAgencia(Integer.parseInt(conta.get("NUM_CONTA_CS").toString())).build();
-
-        }catch (Exception e){
-            System.out.println("Erro " + e);
-            return null;
-        }
-    }
-
-    public static int retornaSoSaldo(String numeroConta){
-        try{
-            Map<String, Object> conta;
-
-            conta = dbUtils.lerUmaLinha(GetSaldoQuerie.CONSULTASALDOCONTASALARIO
                     .replace("<NCONTA>",numeroConta)
             );
 
