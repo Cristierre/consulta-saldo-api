@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static br.com.consulta.saldo.database.ConnectionDataBase.getSaldo;
+import static br.com.consulta.saldo.database.ConnectionDataBase.retornaSoSaldo;
 import static org.testng.Assert.assertEquals;
 
 
@@ -17,15 +18,15 @@ public class ConsultaSaldoTestCase extends BaseTest {
 
     @Test
     public void respostaRequisicao(){
-    ContaSalario expected = getSaldo("139354");
+        final String  NUMERO_CONTA = "139354";
+    int expected = retornaSoSaldo(NUMERO_CONTA);
 
-        int result = ConsultaSaldoBuildRequest.requisicao("IB","0101","139354", "USER")
+        int result = ConsultaSaldoBuildRequest.requisicao("IB","0101",NUMERO_CONTA, "USER")
                 .then()
                 .assertThat()
                 .statusCode(200)
                 .extract()
                 .path("saldo");
-        System.out.println(expected);
 
         Assert.assertEquals(expected, result);
 

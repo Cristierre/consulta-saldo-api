@@ -24,12 +24,12 @@ public class ConnectionDataBase {
         try{
             Map<String, Object> conta;
 
-            conta = dbUtils.lerUmaLinha(GetSaldoQuerie.CONSULTASALDOCONTASALARIO
+            conta = dbUtils.lerUmaLinha(GetSaldoQuerie.SELECT_QUE_RETORNA_SO_SALDO
             .replace("<NCONTA>",numeroConta)
             );
 
             return ContaSalario.builder()
-                    .nroConta(Integer.parseInt(conta.get("VLR_SALDO").toString()))
+                    .saldo(Integer.parseInt(conta.get("VLR_CONTA_CS").toString()))
                     .nroAgencia(Integer.parseInt(conta.get("NUM_CONTA_CS").toString())).build();
 
         }catch (Exception e){

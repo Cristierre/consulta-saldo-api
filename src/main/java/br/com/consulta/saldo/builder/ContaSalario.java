@@ -12,4 +12,5 @@ import lombok.RequiredArgsConstructor;
 public class ContaSalario {
     private int nroAgencia;
     private int nroConta;
+    private int saldo;
 }
